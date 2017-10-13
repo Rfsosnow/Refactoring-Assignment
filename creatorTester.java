@@ -10,7 +10,7 @@ public class creatorTester {
 		boolean pass = true;
 		nSidedDie testDie = new nSidedDie();
 		for (int x = 0; x<200;x++){
-			int result = testDie.roll();
+			int result = testDie.roll(6);
 			if (result < 1 || result > 6){
 				pass = false;
 			}
@@ -21,7 +21,8 @@ public class creatorTester {
 	public void nSidedDieNegativeTest() {
 		boolean pass = false;
 		try{
-			nSidedDie testDie = new nSidedDie(-44);
+			nSidedDie testDie = new nSidedDie();
+			testDie.roll(-1);
 		}catch(IllegalArgumentException e){
 			pass = true;
 		}
@@ -73,11 +74,11 @@ public class creatorTester {
 	@Test
 	public void sumArrayTest(){
 		int[] testArray = {1,2,3,4,5};
-		assertEquals(PathfinderCreator.sumArray(testArray),15);
+		assertEquals(nSidedDie.sumArray(testArray),15);
 	}
 	@Test
 	public void sumArrayTestNegative(){
 		int[] testArray = {1,2,-3,4,5};
-		assertEquals(PathfinderCreator.sumArray(testArray),9);
+		assertEquals(nSidedDie.sumArray(testArray),9);
 	}
 }
