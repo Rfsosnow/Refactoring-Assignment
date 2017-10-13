@@ -15,7 +15,6 @@ public class playerCharacter {
 	private static int hitpoints;
 	
 	private static int[] statScores;
-	private static int[] skillScores;
 	
 	
 	/*
@@ -35,7 +34,6 @@ public class playerCharacter {
 		hitpoints = 0;
 		
 		statScores = new int[6];
-		skillScores = new int[26];
 	}
 	
 	public playerCharacter(String inputGender, String inputCharacterClass, String inputDescription, String inputRace, String inputName, int inputLevel, int inputXp, int inputAge, int inputHitpoints,int[] inputStatScores,int[] inputSkillScores){
@@ -51,7 +49,6 @@ public class playerCharacter {
 		hitpoints = inputHitpoints;
 		
 		statScores = inputStatScores;
-		skillScores = inputSkillScores;
 	}
 
 
@@ -93,12 +90,6 @@ public class playerCharacter {
 	public void setStatScoreAt(int inputStat,int index){
 		statScores[index] = inputStat;
 	}
-	public void setSkillScoresAt(int inputSkill, int index){
-		skillScores[index] = inputSkill;
-	}
-	public void setSkillScores(int[] inputSkillScores){
-		skillScores = inputSkillScores;
-	}
 	
 	/*
 	 * GETTER FUNCTIONS
@@ -138,18 +129,13 @@ public class playerCharacter {
 	public int getStatScoresAt(int index){
 		return statScores[index];
 	}
-	public int[] getSkillScores(){
-		return skillScores;
-	}
 
 	public int statBonus(int index) {
 		return (statScores[index]-10)/2;
 	}
 	
 	public void printAll(){
-		System.out.println("Gender:  "+gender+"Class:  "+characterClass+" Description:  "+description+" Race:  "+race+" Name:  "+name+"\n Level:  "+level+" Xp:  "+xp+" Age:  "+age+" HP:  "+hitpoints+"\n Abilities:  ");
+		System.out.println("Gender:  "+gender+" Class:  "+characterClass+" Description:  "+description+" Race:  "+race+" Name:  "+name+"\n Level:  "+level+" Xp:  "+xp+" Age:  "+age+" HP:  "+hitpoints+"\n Abilities:  ");
 		System.out.println(Arrays.toString(statScores));
-	
-		
 	}
 }
