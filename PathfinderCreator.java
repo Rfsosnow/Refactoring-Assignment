@@ -1,8 +1,4 @@
-import java.util.Random;
-
 import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 
@@ -26,47 +22,35 @@ public class PathfinderCreator {
 		
 		
 		//create a new character object, and create popup window asking for basic details (Name, Gender, Age, Description)
-		
+		nSidedDie universalDie = new nSidedDie();
 		playerCharacter characterToCreate = new playerCharacter();
 		
 		//Starting with class
 		characterToCreate.setCharacterClass((String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Fighter"));
 		String tempClass = characterToCreate.getCharacterClass();
-		nSidedDie characterHitDie = new nSidedDie();
+		int characterHitDieSides = 6;
 		switch(tempClass){
 		case "Fighter": tempClass = "Fighter";
-			characterHitDie.setSides(10);
+			characterHitDieSides = 10;
 			break;
 		case "Rogue": tempClass = "Rogue";
-		 	characterHitDie.setSides(8);
+			characterHitDieSides = 8;
 			break;
 		case "Cleric": tempClass = "Cleric";
-			characterHitDie.setSides(6);
+			characterHitDieSides = 6;
 			break;
 		case "Wizard": tempClass = "Wizard";
-			characterHitDie.setSides(4);
+			characterHitDieSides = 4;
 			break;
 		}
 		
 		//create new dice object that will roll out the 6 stats of the player, displaying them in a text box, with prompt to reroll or
 		//accept and assign the stats
 
-		nSidedDie sixSided = new nSidedDie(6);
 		int confirmChoice = 1;
 		while(confirmChoice == 1){
 			for (int x = 0; x<6;x++){
-				int[] rollHolder = new int[4];
-				int min = 7;
-				int minLocation = 0;
-				for (int y = 0; y<4; y++){
-					rollHolder[y] = sixSided.roll();
-					if (rollHolder[y] < min){
-						min = rollHolder[y];
-						minLocation = y;
-					}
-				}
-				rollHolder[minLocation] = 0;
-				characterToCreate.setStatScoreAt(sumArray(rollHolder),x);
+				characterToCreate.setStatScoreAt(universalDie.rollFourDropLowest(6),x);
 			}
 			confirmChoice = JOptionPane.showConfirmDialog(null, "Rolled stats: \nStr:"+characterToCreate.getStatScoresAt(0)+"\n Dex:"+characterToCreate.getStatScoresAt(1)+"\n Con"+characterToCreate.getStatScoresAt(2)+"\n Int"+characterToCreate.getStatScoresAt(3)+"\n Wis:"+characterToCreate.getStatScoresAt(4)+"\n Cha"+characterToCreate.getStatScoresAt(5)+"\n Are these skills acceptable? (Racial bonuses yet to be applied)");
 			if(confirmChoice == 2){
@@ -151,11 +135,9 @@ public class PathfinderCreator {
 		}else if(nameChoice == 1){
 			confirmChoice = 1;
 			while(confirmChoice == 1){
-				nSidedDie randomizeName = new nSidedDie(randomBeginning.length);
 				String randomName;
-				randomName = randomBeginning[randomizeName.roll()-1];
-				randomizeName.setSides(randomEnd.length);
-				randomName = randomName.concat(randomEnd[randomizeName.roll()-1]);
+				randomName = randomBeginning[universalDie.roll(randomBeginning.length)-1];
+				randomName = randomName.concat(randomEnd[universalDie.roll(randomEnd.length)-1]);
 				confirmChoice = JOptionPane.showConfirmDialog(null, "Your randomized name is:"+randomName);
 				if(confirmChoice == 2){
 					System.exit(0);
@@ -192,7 +174,7 @@ public class PathfinderCreator {
 				System.err.println("Number Format Exception "+e.getMessage());
 			}
 			for (int x = 0; x < characterToCreate.getLevel();x++){
-				characterToCreate.setHitpoints(characterToCreate.getHitpoints()+characterHitDie.roll()+characterToCreate.statBonus(2));
+				characterToCreate.setHitpoints(characterToCreate.getHitpoints()+universalDie.roll(characterHitDieSides)+characterToCreate.statBonus(2));
 			}
 		}
 		
@@ -202,15 +184,7 @@ public class PathfinderCreator {
 		System.exit(0);
 	}
 	
-	
-	public static int sumArray(int[] array){
-		int returnInt = 0;
-		for (int x = 0; x < array.length;x++){
-			returnInt += array[x];
-		}
-		return returnInt;
-	}
-	 
+
 	
 	 
 	
