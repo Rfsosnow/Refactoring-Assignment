@@ -81,4 +81,16 @@ public class creatorTester {
 		int[] testArray = {1,2,-3,4,5};
 		assertEquals(nSidedDie.sumArray(testArray),9);
 	}
+	@Test
+	public void rollFourDropLowestTest(){
+		boolean pass = true;
+		nSidedDie testDie = new nSidedDie();
+		for (int x = 0; x<200;x++){
+			int result = testDie.rollFourDropLowest(6);
+			if (result < 3 || result > 18){
+				pass = false;
+			}
+		}
+		assertTrue(pass);
+	}
 }
