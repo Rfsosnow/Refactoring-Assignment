@@ -10,12 +10,9 @@ public class PathfinderCreator {
 	
 	private final static String[] randomEnd = {"fast","wine","phie","ca","wise","ret","dor","red","lin","ray","li","dul","syth","sen","stray","lao","tin","met","ny","gorn","tun","ker","rris","lial","son","seph"};
 
-	private final static String[] classes = {"Fighter","Cleric","Rogue","Wizard"};
 	
-	private final static String[] races = {"Dwarf","Elf","Gnome","Half-Elf","Half-Orc","Halfling","Human"};
 	
-	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
-	
+
 	
 	
 	public static void main(String[] Args){
@@ -26,27 +23,10 @@ public class PathfinderCreator {
 		playerCharacter characterToCreate = new playerCharacter();
 		
 		//Starting with class
-		characterToCreate.setCharacterClass((String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Fighter"));
-		String tempClass = characterToCreate.getCharacterClass();
-		int characterHitDieSides = 6;
-		switch(tempClass){
-		case "Fighter": tempClass = "Fighter";
-			characterHitDieSides = 10;
-			break;
-		case "Rogue": tempClass = "Rogue";
-			characterHitDieSides = 8;
-			break;
-		case "Cleric": tempClass = "Cleric";
-			characterHitDieSides = 6;
-			break;
-		case "Wizard": tempClass = "Wizard";
-			characterHitDieSides = 4;
-			break;
-		}
+		characterToCreate.characterClassPrompt();
+		int characterHitDieSides = characterToCreate.getCharacterHitDie();
 		
-		//create new dice object that will roll out the 6 stats of the player, displaying them in a text box, with prompt to reroll or
-		//accept and assign the stats
-
+		
 		int confirmChoice = 1;
 		while(confirmChoice == 1){
 			for (int x = 0; x<6;x++){
@@ -59,64 +39,7 @@ public class PathfinderCreator {
 		}
 		
 		//Give user option of races to pick
-		characterToCreate.setRace((String)JOptionPane.showInputDialog(null,"Choose Race","Choose your race",JOptionPane.PLAIN_MESSAGE,null,races,"Dwarf"));
-		String tempRace = characterToCreate.getRace();
-		int statChoice;
-		switch(tempRace){
-		case "Dwarf": tempRace = "Dwarf";
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)+2,2);					///FIX THIS
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(4)+2,4);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)-2,5);
-			break;
-		case "Elf": tempRace = "Elf";
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(1)+2,1);					
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(3)+2,3);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)-2,2);
-			break;
-		case "Gnome": tempRace = "Gnome";
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)+2,2);					
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)+2,5);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(0)-2,0);
-			break;
-		case "Half-Elf": tempRace= "Half-Elf";
-			statChoice = JOptionPane.showOptionDialog(null, 
-					"Select which Ability you would like to increase by two:",
-					"Special Race Ability Increase",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					stats,
-					stats[0]);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
-			break;
-		case "Half-Orc": tempRace = "Half-Orc";
-			statChoice = JOptionPane.showOptionDialog(null, 
-					"Select which Ability you would like to increase by two:",
-					"Special Race Ability Increase",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					stats,
-					stats[0]);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
-			break;
-		case "Halfling": tempRace = "Halfling";
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(1)+2,1);					
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)+2,5);
-			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(0)-2,0);
-			break;
-		case "Human": tempRace = "Human";
-			statChoice = JOptionPane.showOptionDialog(null, 
-						"Select which Ability you would like to increase by two:",
-						"Special Race Ability Increase",
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						stats,
-						stats[0]);
-				characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
-				break;
-		}
+		characterToCreate.racePrompt();
 		
 		
 		//Allow user to randomize name or write their own
