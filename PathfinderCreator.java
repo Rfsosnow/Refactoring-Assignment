@@ -9,11 +9,7 @@ import javax.swing.JTextField;
 
 
 public class PathfinderCreator {
-	
-	//ALL THIS JUNK IS BAD. PUT IT IN AN DATA HOLDING OBJECT WITH WELL NAMED METHODS TO ACCESS
-	
-	private final String[] skills = {"acrobatics","appraise","bluff","climb","craft","diplomacy","disable device","disguise","escape artist","fly","handle animal","heal","intimidate","knowledge","linguistics","perception","perform","profession","ride","sense motive","sleight of hand","spellcraft","stealth","survival","swim","use magic device"};
-	
+		
 	private final static String[] randomBeginning = {"Letta","Beo","Haru","Gar","Ever","Tom","Bal","Cra","Iop","Lop","Yu","Hill","Gren","Alas","Acer","Win","Win","Corr","Quel","Imo","Plo","Hur","Fran","Brit"};
 	
 	private final static String[] randomEnd = {"fast","wine","phie","ca","wise","ret","dor","red","lin","ray","li","dul","syth","sen","stray","lao","tin","met","ny","gorn","tun","ker","rris","lial","son","seph"};
@@ -24,25 +20,20 @@ public class PathfinderCreator {
 	
 	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
 	
-	private static String characterClass;				//DELETE OLD UNUSED STUFF
 	
-	/*
-	 * 
-
-	 */
 	
 	public static void main(String[] Args){
 		
 		
 		//create a new character object, and create popup window asking for basic details (Name, Gender, Age, Description)
 		
-		playerCharacter holder = new playerCharacter();			//RENAME TO MAKE CLEARER
+		playerCharacter characterToCreate = new playerCharacter();
 		
 		//Starting with class
-		holder.setCharacterClass((String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Fighter"));
-		String tempClass = holder.getCharacterClass();
+		characterToCreate.setCharacterClass((String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Fighter"));
+		String tempClass = characterToCreate.getCharacterClass();
 		nSidedDie characterHitDie = new nSidedDie();
-		switch(tempClass){					//DELETE THIS SWITCH CASE
+		switch(tempClass){
 		case "Fighter": tempClass = "Fighter";
 			characterHitDie.setSides(10);
 			break;
@@ -60,9 +51,9 @@ public class PathfinderCreator {
 		//create new dice object that will roll out the 6 stats of the player, displaying them in a text box, with prompt to reroll or
 		//accept and assign the stats
 
-		nSidedDie sixSided = new nSidedDie(6);			//DICE CLASS UNECESSARY, JUST ADD ONE METHOD TO DO ITS JOB
-		int confirmChoice = 1;	//NAMED BADLY. TURN THESE WHILE LOOPS INTO THE METHOD DESCRIBED BELOW
-		while(confirmChoice == 1){				//EXTRACT METHOD ON ALL JOPTIONPANE FUNCTIONS
+		nSidedDie sixSided = new nSidedDie(6);
+		int confirmChoice = 1;
+		while(confirmChoice == 1){
 			for (int x = 0; x<6;x++){
 				int[] rollHolder = new int[4];
 				int min = 7;
@@ -75,33 +66,33 @@ public class PathfinderCreator {
 					}
 				}
 				rollHolder[minLocation] = 0;
-				holder.setStatScoreAt(sumArray(rollHolder),x);
+				characterToCreate.setStatScoreAt(sumArray(rollHolder),x);
 			}
-			confirmChoice = JOptionPane.showConfirmDialog(null, "Rolled stats: \nStr:"+holder.getStatScoresAt(0)+"\n Dex:"+holder.getStatScoresAt(1)+"\n Con"+holder.getStatScoresAt(2)+"\n Int"+holder.getStatScoresAt(3)+"\n Wis:"+holder.getStatScoresAt(4)+"\n Cha"+holder.getStatScoresAt(5)+"\n Are these skills acceptable? (Racial bonuses yet to be applied)");
+			confirmChoice = JOptionPane.showConfirmDialog(null, "Rolled stats: \nStr:"+characterToCreate.getStatScoresAt(0)+"\n Dex:"+characterToCreate.getStatScoresAt(1)+"\n Con"+characterToCreate.getStatScoresAt(2)+"\n Int"+characterToCreate.getStatScoresAt(3)+"\n Wis:"+characterToCreate.getStatScoresAt(4)+"\n Cha"+characterToCreate.getStatScoresAt(5)+"\n Are these skills acceptable? (Racial bonuses yet to be applied)");
 			if(confirmChoice == 2){
 				System.exit(0);
 			}
 		}
 		
 		//Give user option of races to pick
-		holder.setRace((String)JOptionPane.showInputDialog(null,"Choose Race","Choose your race",JOptionPane.PLAIN_MESSAGE,null,races,"Dwarf"));
-		String tempRace = holder.getRace();
+		characterToCreate.setRace((String)JOptionPane.showInputDialog(null,"Choose Race","Choose your race",JOptionPane.PLAIN_MESSAGE,null,races,"Dwarf"));
+		String tempRace = characterToCreate.getRace();
 		int statChoice;
 		switch(tempRace){
 		case "Dwarf": tempRace = "Dwarf";
-			holder.setStatScoreAt(holder.getStatScoresAt(2)+2,2);					///TAKE OUT SWITCH CASES AGAIN. ADD TO THE SETRACE FUNCTIONALITY
-			holder.setStatScoreAt(holder.getStatScoresAt(4)+2,4);
-			holder.setStatScoreAt(holder.getStatScoresAt(5)-2,5);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)+2,2);					///FIX THIS
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(4)+2,4);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)-2,5);
 			break;
 		case "Elf": tempRace = "Elf";
-			holder.setStatScoreAt(holder.getStatScoresAt(1)+2,1);					
-			holder.setStatScoreAt(holder.getStatScoresAt(3)+2,3);
-			holder.setStatScoreAt(holder.getStatScoresAt(2)-2,2);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(1)+2,1);					
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(3)+2,3);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)-2,2);
 			break;
 		case "Gnome": tempRace = "Gnome";
-			holder.setStatScoreAt(holder.getStatScoresAt(2)+2,2);					
-			holder.setStatScoreAt(holder.getStatScoresAt(5)+2,5);
-			holder.setStatScoreAt(holder.getStatScoresAt(0)-2,0);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(2)+2,2);					
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)+2,5);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(0)-2,0);
 			break;
 		case "Half-Elf": tempRace= "Half-Elf";
 			statChoice = JOptionPane.showOptionDialog(null, 
@@ -112,7 +103,7 @@ public class PathfinderCreator {
 					null,
 					stats,
 					stats[0]);
-			holder.setStatScoreAt(holder.getStatScoresAt(statChoice)+2, statChoice);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
 			break;
 		case "Half-Orc": tempRace = "Half-Orc";
 			statChoice = JOptionPane.showOptionDialog(null, 
@@ -123,12 +114,12 @@ public class PathfinderCreator {
 					null,
 					stats,
 					stats[0]);
-			holder.setStatScoreAt(holder.getStatScoresAt(statChoice)+2, statChoice);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
 			break;
 		case "Halfling": tempRace = "Halfling";
-			holder.setStatScoreAt(holder.getStatScoresAt(1)+2,1);					
-			holder.setStatScoreAt(holder.getStatScoresAt(5)+2,5);
-			holder.setStatScoreAt(holder.getStatScoresAt(0)-2,0);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(1)+2,1);					
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(5)+2,5);
+			characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(0)-2,0);
 			break;
 		case "Human": tempRace = "Human";
 			statChoice = JOptionPane.showOptionDialog(null, 
@@ -139,13 +130,13 @@ public class PathfinderCreator {
 						null,
 						stats,
 						stats[0]);
-				holder.setStatScoreAt(holder.getStatScoresAt(statChoice)+2, statChoice);
+				characterToCreate.setStatScoreAt(characterToCreate.getStatScoresAt(statChoice)+2, statChoice);
 				break;
 		}
 		
 		
 		//Allow user to randomize name or write their own
-		String[] options = {"Write own name","Randomize name","Exit"};
+		String[] nameOptions = {"Write own name","Randomize name","Exit"};
 
 		int nameChoice = JOptionPane.showOptionDialog(null, 
 				"Would you like to write your own name?",
@@ -153,8 +144,8 @@ public class PathfinderCreator {
 				JOptionPane.YES_NO_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE,
 				null,
-				options,
-				options[0]);
+				nameOptions,
+				nameOptions[0]);
 		if(nameChoice == 2){
 			System.exit(0);
 		}else if(nameChoice == 1){
@@ -163,24 +154,24 @@ public class PathfinderCreator {
 				nSidedDie randomizeName = new nSidedDie(randomBeginning.length);
 				String randomName;
 				randomName = randomBeginning[randomizeName.roll()-1];
-				randomizeName.setSides(randomEnd.length);					//TAKE THIS OUT, YET AGAIN
+				randomizeName.setSides(randomEnd.length);
 				randomName = randomName.concat(randomEnd[randomizeName.roll()-1]);
 				confirmChoice = JOptionPane.showConfirmDialog(null, "Your randomized name is:"+randomName);
 				if(confirmChoice == 2){
 					System.exit(0);
 				}
-				holder.setName(randomName);
+				characterToCreate.setName(randomName);
 			}
 		}else{
 	
-			holder.setName(JOptionPane.showInputDialog(null,"Enter your name"));
-			JOptionPane.showMessageDialog(null, "Your name is "+holder.getName());
+			characterToCreate.setName(JOptionPane.showInputDialog(null,"Enter your name"));
+			JOptionPane.showMessageDialog(null, "Your name is "+characterToCreate.getName());
 		}
 		
 		//ask user for gender
-		holder.setGender(JOptionPane.showInputDialog(null,"Enter your gender"));
+		characterToCreate.setGender(JOptionPane.showInputDialog(null,"Enter your gender"));
 		//ask user for description
-		holder.setDescription(JOptionPane.showInputDialog("Please enter your characters description"));
+		characterToCreate.setDescription(JOptionPane.showInputDialog("Please enter your characters description"));
 		
 		//ask for level and age
 		
@@ -195,17 +186,17 @@ public class PathfinderCreator {
 			System.exit(0);
 		}else{
 			try{
-				holder.setLevel(Integer.parseInt(levelField.getText()));
-				holder.setAge(Integer.parseInt(ageField.getText()));
+				characterToCreate.setLevel(Integer.parseInt(levelField.getText()));
+				characterToCreate.setAge(Integer.parseInt(ageField.getText()));
 			}catch(NumberFormatException e){
 				System.err.println("Number Format Exception "+e.getMessage());
 			}
-			for (int x = 0; x < holder.getLevel();x++){
-				holder.setHitpoints(holder.getHitpoints()+characterHitDie.roll()+holder.statBonus(2));
+			for (int x = 0; x < characterToCreate.getLevel();x++){
+				characterToCreate.setHitpoints(characterToCreate.getHitpoints()+characterHitDie.roll()+characterToCreate.statBonus(2));
 			}
 		}
 		
-		holder.printAll();
+		characterToCreate.printAll();
 		
 		System.out.println("Exiting");
 		System.exit(0);
