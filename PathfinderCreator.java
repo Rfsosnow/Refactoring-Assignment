@@ -10,6 +10,8 @@ import javax.swing.JTextField;
 
 public class PathfinderCreator {
 	
+	//ALL THIS JUNK IS BAD. PUT IT IN AN DATA HOLDING OBJECT WITH WELL NAMED METHODS TO ACCESS
+	
 	private final String[] skills = {"acrobatics","appraise","bluff","climb","craft","diplomacy","disable device","disguise","escape artist","fly","handle animal","heal","intimidate","knowledge","linguistics","perception","perform","profession","ride","sense motive","sleight of hand","spellcraft","stealth","survival","swim","use magic device"};
 	
 	private final static String[] randomBeginning = {"Letta","Beo","Haru","Gar","Ever","Tom","Bal","Cra","Iop","Lop","Yu","Hill","Gren","Alas","Acer","Win","Win","Corr","Quel","Imo","Plo","Hur","Fran","Brit"};
@@ -22,7 +24,7 @@ public class PathfinderCreator {
 	
 	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
 	
-	private static String characterClass;
+	private static String characterClass;				//DELETE OLD UNUSED STUFF
 	
 	/*
 	 * 
@@ -34,13 +36,13 @@ public class PathfinderCreator {
 		
 		//create a new character object, and create popup window asking for basic details (Name, Gender, Age, Description)
 		
-		playerCharacter holder = new playerCharacter();
+		playerCharacter holder = new playerCharacter();			//RENAME TO MAKE CLEARER
 		
 		//Starting with class
 		holder.setCharacterClass((String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Fighter"));
 		String tempClass = holder.getCharacterClass();
 		nSidedDie characterHitDie = new nSidedDie();
-		switch(tempClass){
+		switch(tempClass){					//DELETE THIS SWITCH CASE
 		case "Fighter": tempClass = "Fighter";
 			characterHitDie.setSides(10);
 			break;
@@ -58,9 +60,9 @@ public class PathfinderCreator {
 		//create new dice object that will roll out the 6 stats of the player, displaying them in a text box, with prompt to reroll or
 		//accept and assign the stats
 
-		nSidedDie sixSided = new nSidedDie(6);
-		int confirmChoice = 1;
-		while(confirmChoice == 1){
+		nSidedDie sixSided = new nSidedDie(6);			//DICE CLASS UNECESSARY, JUST ADD ONE METHOD TO DO ITS JOB
+		int confirmChoice = 1;	//NAMED BADLY. TURN THESE WHILE LOOPS INTO THE METHOD DESCRIBED BELOW
+		while(confirmChoice == 1){				//EXTRACT METHOD ON ALL JOPTIONPANE FUNCTIONS
 			for (int x = 0; x<6;x++){
 				int[] rollHolder = new int[4];
 				int min = 7;
@@ -87,7 +89,7 @@ public class PathfinderCreator {
 		int statChoice;
 		switch(tempRace){
 		case "Dwarf": tempRace = "Dwarf";
-			holder.setStatScoreAt(holder.getStatScoresAt(2)+2,2);					///FIX THIS
+			holder.setStatScoreAt(holder.getStatScoresAt(2)+2,2);					///TAKE OUT SWITCH CASES AGAIN. ADD TO THE SETRACE FUNCTIONALITY
 			holder.setStatScoreAt(holder.getStatScoresAt(4)+2,4);
 			holder.setStatScoreAt(holder.getStatScoresAt(5)-2,5);
 			break;
@@ -161,7 +163,7 @@ public class PathfinderCreator {
 				nSidedDie randomizeName = new nSidedDie(randomBeginning.length);
 				String randomName;
 				randomName = randomBeginning[randomizeName.roll()-1];
-				randomizeName.setSides(randomEnd.length);
+				randomizeName.setSides(randomEnd.length);					//TAKE THIS OUT, YET AGAIN
 				randomName = randomName.concat(randomEnd[randomizeName.roll()-1]);
 				confirmChoice = JOptionPane.showConfirmDialog(null, "Your randomized name is:"+randomName);
 				if(confirmChoice == 2){
