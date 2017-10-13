@@ -10,7 +10,7 @@ public class creatorTester {
 		boolean pass = true;
 		nSidedDie testDie = new nSidedDie();
 		for (int x = 0; x<200;x++){
-			int result = testDie.roll(6);
+			int result = testDie.rollFromOneTo(6);
 			if (result < 1 || result > 6){
 				pass = false;
 			}
@@ -22,7 +22,7 @@ public class creatorTester {
 		boolean pass = false;
 		try{
 			nSidedDie testDie = new nSidedDie();
-			testDie.roll(-1);
+			testDie.rollFromOneTo(-1);
 		}catch(IllegalArgumentException e){
 			pass = true;
 		}
