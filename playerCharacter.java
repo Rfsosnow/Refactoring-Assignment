@@ -22,8 +22,8 @@ public class playerCharacter {
 	private final static String[] classes = {"Wizard","Cleric","Rogue","Fighter"};
 	private final static String[] races = {"Dwarf","Elf","Gnome","Half-Elf","Half-Orc","Halfling","Human"};
 	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
-	private final static String[] randomBeginning = {"Letta","Beo","Haru","Gar","Ever","Tom","Bal","Cra","Iop","Lop","Yu","Hill","Gren","Alas","Acer","Win","Win","Corr","Quel","Imo","Plo","Hur","Fran","Brit"};
-	private final static String[] randomEnd = {"fast","wine","phie","ca","wise","ret","dor","red","lin","ray","li","dul","syth","sen","stray","lao","tin","met","ny","gorn","tun","ker","rris","lial","son","seph"};
+	private final static String[] nameFragmentStart = {"Letta","Beo","Haru","Gar","Ever","Tom","Bal","Cra","Iop","Lop","Yu","Hill","Gren","Alas","Acer","Win","Win","Corr","Quel","Imo","Plo","Hur","Fran","Brit"};
+	private final static String[] nameFragmentEnd = {"fast","wine","phie","ca","wise","ret","dor","red","lin","ray","li","dul","syth","sen","stray","lao","tin","met","ny","gorn","tun","ker","rris","lial","son","seph"};
 
 	/*
 	 * DEFAULT AND FULL CONSTRUCTORS
@@ -141,7 +141,7 @@ public class playerCharacter {
 	public int statBonus(int index) {
 		return (statScores[index]-10)/2;
 	}
-	
+	//Output all values to the console
 	public void printAll(){
 		System.out.println("Gender:  "+gender+" Class:  "+characterClass+" Description:  "+description+" Race:  "+race+" Name:  "+name+"\n Level:  "+level+" Xp:  "+xp+" Age:  "+age+" HP:  "+hitpoints+"\n Abilities:  ");
 		System.out.println(Arrays.toString(statScores));
@@ -158,7 +158,7 @@ public class playerCharacter {
 		}
 		return 0;
 	}
-
+	//present pop-up with race options,saving choice to race variable and make appropriate edits to the stats for each race
 	public void racePrompt() {
 		race = (String)JOptionPane.showInputDialog(null,"Choose Race","Choose your race",JOptionPane.PLAIN_MESSAGE,null,races,"Dwarf");
 		if(race == "Dwarf"){
@@ -189,7 +189,10 @@ public class playerCharacter {
 			statScores[statChoice] = statScores[statChoice]+2;
 		}
 	}
-
+	
+	//Present pop-up to user, asking them to either write their own name, or randomize one. Followup pop-up based off
+	//their choice, prompting them to type out name or giving them a generated name respectively, and saving them to name variable
+	//with loop until they are satisfied with random name
 	public void namePrompt() {
 		String[] nameOptions = {"Write own name","Randomize name","Exit"};
 		int continueRepeatOrCancel;
@@ -219,13 +222,21 @@ public class playerCharacter {
 		}		
 	}
 
+	//
+	//Random name function, simply rolls number from 0 to length of each name fragment section
+	//and attach them together, and return
+	//
 	public String randomName(){
 		nSidedDie randomRoll = new nSidedDie();
-		String returnName = randomBeginning[randomRoll.roll(randomBeginning.length)-1];
-		returnName = returnName.concat(randomEnd[randomRoll.roll(randomEnd.length)-1]);
+		String returnName = nameFragmentStart[randomRoll.rollFromOneTo(nameFragmentStart.length)-1];
+		returnName = returnName.concat(nameFragmentEnd[randomRoll.rollFromOneTo(nameFragmentEnd.length)-1]);
 		return returnName;
 	}
 
+	//
+	//Ask user to type in two fields, with text describing what each is. Store the values if they are not innapropriate values
+	//int level and age respectively, and calculate their HP and XP based off the level they responded with. 
+	//
 	public void numericValuePrompt() {
 		nSidedDie hitPointDie = new nSidedDie();
 		JTextField levelField = new JTextField();
@@ -241,12 +252,15 @@ public class playerCharacter {
 			try{
 				level = Integer.parseInt(levelField.getText());
 				age = (Integer.parseInt(ageField.getText()));
+				if (level < 0 || age <0){
+					throw new IllegalArgumentException();
+				}
 			}catch(NumberFormatException e){
 				System.err.println("Number Format Exception "+e.getMessage());
 				System.exit(0);
 			}
 			for (int x = 0; x < level;x++){
-				hitpoints = hitpoints+hitPointDie.roll(getCharacterHitDie())+statBonus(2);
+				hitpoints = hitpoints+hitPointDie.rollFromOneTo(getCharacterHitDie())+statBonus(2);
 			}
 			xp = level*1000;
 		}
