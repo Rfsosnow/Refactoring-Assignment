@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 
 public class playerCharacter {
@@ -21,6 +22,8 @@ public class playerCharacter {
 	private final static String[] classes = {"Wizard","Cleric","Rogue","Fighter"};
 	private final static String[] races = {"Dwarf","Elf","Gnome","Half-Elf","Half-Orc","Halfling","Human"};
 	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
+	private final static String[] randomBeginning = {"Letta","Beo","Haru","Gar","Ever","Tom","Bal","Cra","Iop","Lop","Yu","Hill","Gren","Alas","Acer","Win","Win","Corr","Quel","Imo","Plo","Hur","Fran","Brit"};
+	private final static String[] randomEnd = {"fast","wine","phie","ca","wise","ret","dor","red","lin","ray","li","dul","syth","sen","stray","lao","tin","met","ny","gorn","tun","ker","rris","lial","son","seph"};
 
 	/*
 	 * DEFAULT AND FULL CONSTRUCTORS
@@ -186,5 +189,67 @@ public class playerCharacter {
 			statScores[statChoice] = statScores[statChoice]+2;
 		}
 	}
+
+	public void namePrompt() {
+		String[] nameOptions = {"Write own name","Randomize name","Exit"};
+		int continueRepeatOrCancel;
+		int nameChoice = JOptionPane.showOptionDialog(null, 
+				"Would you like to write your own name?",
+				"Character Name Choice",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				nameOptions,
+				nameOptions[0]);
+		if(nameChoice == 2){
+			System.exit(0);
+		}else if(nameChoice == 1){
+			continueRepeatOrCancel = 1;
+			while(continueRepeatOrCancel == 1){
+				name = randomName();
+				continueRepeatOrCancel = JOptionPane.showConfirmDialog(null, "Your randomized name is:"+name+"\n Is that acceptable?");
+				if(continueRepeatOrCancel == 2){
+					System.exit(0);
+				}
+			}
+		}else{
 	
+			name = JOptionPane.showInputDialog(null,"Enter your name:");
+			JOptionPane.showMessageDialog(null, "Your name is "+name);
+		}		
+	}
+
+	public String randomName(){
+		nSidedDie randomRoll = new nSidedDie();
+		String returnName = randomBeginning[randomRoll.roll(randomBeginning.length)-1];
+		returnName = returnName.concat(randomEnd[randomRoll.roll(randomEnd.length)-1]);
+		return returnName;
+	}
+
+	public void numericValuePrompt() {
+		nSidedDie hitPointDie = new nSidedDie();
+		JTextField levelField = new JTextField();
+		JTextField ageField = new JTextField();
+		Object[] fields = {
+				"Please enter your level(1-20):",levelField,
+				"Please enter  your age:",ageField
+		};
+		int ageOptionOkCancel = JOptionPane.showConfirmDialog(null, fields, "Age and level entry", JOptionPane.OK_CANCEL_OPTION);
+		if (ageOptionOkCancel == 1){
+			System.exit(0);
+		}else{
+			try{
+				level = Integer.parseInt(levelField.getText());
+				age = (Integer.parseInt(ageField.getText()));
+			}catch(NumberFormatException e){
+				System.err.println("Number Format Exception "+e.getMessage());
+				System.exit(0);
+			}
+			for (int x = 0; x < level;x++){
+				hitpoints = hitpoints+hitPointDie.roll(getCharacterHitDie())+statBonus(2);
+			}
+			xp = level*1000;
+		}
+		
+	}
 }
