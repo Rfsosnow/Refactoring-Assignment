@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 
 public class playerCharacter {
 
@@ -16,7 +18,10 @@ public class playerCharacter {
 	
 	private static int[] statScores;
 	
-	
+	private final static String[] classes = {"Wizard","Cleric","Rogue","Fighter"};
+	private final static String[] races = {"Dwarf","Elf","Gnome","Half-Elf","Half-Orc","Halfling","Human"};
+	private final static String[] stats = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
+
 	/*
 	 * DEFAULT AND FULL CONSTRUCTORS
 	 */
@@ -138,4 +143,48 @@ public class playerCharacter {
 		System.out.println("Gender:  "+gender+" Class:  "+characterClass+" Description:  "+description+" Race:  "+race+" Name:  "+name+"\n Level:  "+level+" Xp:  "+xp+" Age:  "+age+" HP:  "+hitpoints+"\n Abilities:  ");
 		System.out.println(Arrays.toString(statScores));
 	}
+
+	public void characterClassPrompt() {
+		characterClass = (String)JOptionPane.showInputDialog(null, "Testing","Title",JOptionPane.PLAIN_MESSAGE,null,classes,"Wizard");
+	}
+	public int getCharacterHitDie(){
+		for(int x = 0;x<classes.length;x++){
+			if(characterClass == classes[x]){
+				return ((x+4)+(x*2));
+			}
+		}
+		return 0;
+	}
+
+	public void racePrompt() {
+		race = (String)JOptionPane.showInputDialog(null,"Choose Race","Choose your race",JOptionPane.PLAIN_MESSAGE,null,races,"Dwarf");
+		if(race == "Dwarf"){
+			statScores[2] = statScores[2]+2;
+			statScores[4] = statScores[4]+2;
+			statScores[5] = statScores[5]-2;
+		} else if(race == "Elf"){
+			statScores[1] = statScores[1]+2;
+			statScores[3] = statScores[3]+2;
+			statScores[2] = statScores[2]-2;
+		} else if(race == "Gnome"){
+			statScores[2] = statScores[2]+2;
+			statScores[5] = statScores[5]+2;
+			statScores[0] = statScores[0]-2;
+		} else if(race == "Halfling"){
+			statScores[1] = statScores[1]+2;
+			statScores[5] = statScores[5]+2;
+			statScores[0] = statScores[0]-2;
+		} else {
+			int statChoice = JOptionPane.showOptionDialog(null, 
+					"Select which Ability you would like to increase by two:",
+					"Special Race Ability Increase",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					stats,
+					stats[0]);
+			statScores[statChoice] = statScores[statChoice]+2;
+		}
+	}
+	
 }
