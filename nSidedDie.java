@@ -11,14 +11,14 @@ public class nSidedDie {
 	public nSidedDie(long seed){
 		diceRoller = new Random(seed);
 	}
-	
-	public int roll(int sides){
+	//Return number from 1 to given int
+	public int rollFromOneTo(int sides){
 		if(sides<1){
 			throw new IllegalArgumentException();
 		}
 		return (diceRoller.nextInt(sides)+1);
 	}
-	
+
 	public int rollFourDropLowest(int sides){
 		int[] rollArray = new int[4];
 		int lowestRoll = sides+1;
